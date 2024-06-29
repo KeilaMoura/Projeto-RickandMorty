@@ -24,7 +24,7 @@ interface Character {
   liked: boolean;
   gender: string;
   status: string;
-  type: string; // Adicionado o campo 'type'
+  type: string;
   origin: { name: string };
   location: { name: string };
 }
@@ -43,7 +43,6 @@ const LikeScreen: React.FC = () => {
     }, [])
   );
 
-  // Carrega personagens curtidos do AsyncStorage
   const carregarPersonagensCurtidos = async () => {
     setLoading(true);
     try {
@@ -51,7 +50,6 @@ const LikeScreen: React.FC = () => {
       if (savedLikes) {
         const likedPersonagensIds: number[] = JSON.parse(savedLikes);
 
-        // Busca apenas os personagens curtidos
         if (likedPersonagensIds.length > 0) {
           const response = await fetch(
             `https://rickandmortyapi.com/api/character/${likedPersonagensIds.join(
@@ -69,7 +67,7 @@ const LikeScreen: React.FC = () => {
                 liked: true,
                 gender: item.gender,
                 status: item.status,
-                type: item.type || "Unknown", // Define um valor padrão se 'type' não estiver presente
+                type: item.type || "Unknown",
                 origin: { name: item.origin.name },
                 location: { name: item.location.name },
               }))
@@ -82,14 +80,13 @@ const LikeScreen: React.FC = () => {
                   liked: true,
                   gender: data.gender,
                   status: data.status,
-                  type: data.type || "Unknown", // Define um valor padrão se 'type' não estiver presente
+                  type: data.type || "Unknown",
                   origin: { name: data.origin.name },
                   location: { name: data.location.name },
                 },
               ];
 
           setPersonagens((prevPersonagens) => {
-            // Merge os novos personagens curtidos com os existentes
             const personagensMap = new Map<number, Character>();
             prevPersonagens.forEach((p) => personagensMap.set(p.id, p));
             personagensCurtidos.forEach((p) => personagensMap.set(p.id, p));
@@ -106,7 +103,6 @@ const LikeScreen: React.FC = () => {
     }
   };
 
-  // Toggle de curtida/descurtida de um personagem
   const toggleLike = useCallback(
     async (personagem: Character) => {
       try {
@@ -123,7 +119,6 @@ const LikeScreen: React.FC = () => {
           JSON.stringify(likedPersonagensIds)
         );
 
-        // Atualiza a lista local apenas com os personagens curtidos
         setPersonagens(updatedPersonagens);
       } catch (error) {
         console.error("Erro ao salvar curtida:", error);
@@ -132,17 +127,14 @@ const LikeScreen: React.FC = () => {
     [personagens]
   );
 
-  // Mostra detalhes de um personagem
   const showCharacterDetails = (personagem: Character) => {
     setSelectedCharacter(personagem);
   };
 
-  // Volta para a lista de personagens
   const goBack = () => {
     setSelectedCharacter(null);
   };
 
-  // Renderiza um item de personagem na lista
   const renderCharacter = ({ item }: { item: Character }) => (
     <TouchableOpacity
       style={styles.characterCard}
@@ -170,7 +162,6 @@ const LikeScreen: React.FC = () => {
     </TouchableOpacity>
   );
 
-  // Renderiza detalhes de um personagem selecionado
   const renderDetails = () => (
     <View style={styles.detailsContainer}>
       <Image
@@ -229,7 +220,6 @@ const LikeScreen: React.FC = () => {
     </View>
   );
 
-  // Componente principal
   return (
     <View style={styles.container}>
       {!selectedCharacter ? (
@@ -395,7 +385,7 @@ const styles = StyleSheet.create({
   },
   detailsTitle: {
     fontSize: 28,
-    marginTop: -30 ,
+    marginTop: -30,
     marginBottom: 15,
     width: 312,
     height: 38,
