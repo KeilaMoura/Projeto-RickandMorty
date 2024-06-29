@@ -15,7 +15,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { ThemedText } from "../../components/ThemedText";
 import { Platform } from "react-native";
 import CharacterCard from "../../components/CharacterCard";
-
+ 
+//características
 interface Character {
   id: number;
   name: string;
