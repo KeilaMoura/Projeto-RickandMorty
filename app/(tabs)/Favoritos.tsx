@@ -16,7 +16,7 @@ import { ThemedText } from "../../components/ThemedText";
 import { Platform } from "react-native";
 import CharacterCard from "../../components/CharacterCard";
  
-//características
+//características do personagem
 interface Character {
   id: number;
   name: string;
